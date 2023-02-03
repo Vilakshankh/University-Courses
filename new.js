@@ -28,7 +28,7 @@ class Course
           
             if (resultSubject != null)
             {//second check in place to make sure there arent any invalid entries
-                    console.log(resultSubject);       
+                    console.log(lines[i]);       
             }
 
         }
