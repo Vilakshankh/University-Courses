@@ -14,8 +14,8 @@ class Course
 
     static catagorize (lines)
     {
-        let noQuotes = this.subject.replace(/['"]/g, '');
-
+        //let noQuotes = this.subject.replace(/['"]/g, '');
+        console.log(this.subject);
 
         //need to fix regexpression catchers for each variable
         let regSubject = new RegExp(this.subject, 'g');
@@ -75,9 +75,9 @@ class Course
                 if (err) throw err;
                 const lines = data.split('\n');
                 //console.log(lines);
-
-
                 //need to call catagorize method here
+
+                this.catagorize(lines)
             }
         );
     }
@@ -88,4 +88,4 @@ const line = Course.load("muncourses.txt");
 
 const course = new Course("Introduction to Anthropolog", 001, "", "", "", "", "");
 
-Course.load("muncourses.txt");
+//Course.load("muncourses.txt");
