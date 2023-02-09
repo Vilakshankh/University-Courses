@@ -14,59 +14,26 @@ class Course
 
     catagorize (lines)
     {
-        //let noQuotes = this.subject.replace(/['"]/g, '');
-        
-
-
-        //need to fix regexpression catchers for each variable
-        let regSubject = new RegExp(this.subject, 'g');
-    
-        let regNum = new RegExp(this.number, 'g'); //digits before the subject
-        
-        let regName = new RegExp(this.name, 'g');
-        let regSection = new RegExp(this.section, 'g');
-        let regCrn = new RegExp(this.crn, 'g');
-        let regRoom = new RegExp(this.room, 'g');
-        let regType = new RegExp(this.type, 'g');
-        
-        
-       
-
-
-
-        for (var i = 0; i < lines.length; i++)
+        //let subject = new RegExp("[a-z](\w+)", 'g') 
+        let subjectCheck = /[sS]ubject: [A-Z][a-z]\w+/;
+        let exp = /Subject:\s+(.*)/i;
+        for (let i = 0; i < lines.length; i++)
         {
-            let noQuotes = lines[i].replace(/['"]/g, '');
-            let resultSubject = noQuotes.match(regSubject);
-            let resultNum = noQuotes.match(regNum);
-            let resultName = noQuotes.match(regName);
-            let resultSection = noQuotes.match(regSection);
-            let resultCrn = noQuotes.match(regCrn);
-            let resultRoom = noQuotes.match(regRoom);
-            let resultType = noQuotes.match(regType);
-            
-            
-            
-
-            if (resultSubject != null)
-            {//second check in place to make sure there arent any invalid entries
-                
-                if (resultNum != null && resultName != null 
-                    && resultSection != null &&  resultCrn != null 
-                    && resultRoom != null && resultType != null)
-                {
-                    //append all of this information in one array and return it for
-                    //load method to use
-                    console.log(resultSubject[0], resultNum[0]);
-                   
-                }        
-                else(console.log("invalid entries for ", resultSubject))    
+            if(lines[i].match(exp)[0])
+            {
+                console.log(lines[i].match(exp)[1]);
             }
+            //console.log(lines[i].match(exp)[1]);
             
-
+            
+            
         }
+        
+        
+
+        
     }
-    1   
+    
     //for each line 
     load (datafile, callback)
     {
@@ -76,10 +43,18 @@ class Course
             {
                 if (err) throw err;
                 const lines = data.split('\n');
-                //console.log(lines);
-                this.catagorize(lines)
+                this.catagorize(lines);
+                
 
-                //need to call catagorize method here
+
+
+
+
+
+
+
+
+
             }
         );
     }
@@ -88,6 +63,6 @@ class Course
 
 //const line = Course.load("muncourses.txt");
 
-const course = new Course("Introduction to Anthropolog", 1031, "", "", "", "", "");
+const course = new Course();
 
 course.load("muncourses.txt");
