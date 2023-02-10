@@ -16,27 +16,35 @@ class Course
     static load(filename) {
         const fs = require('fs');
         fs.readFile(filename, 'utf-8', (err, data) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-    
-          const courses = [];
-          let subject = null;
-          let lines = data.split('\n');
-    
-          for (let i = 0; i < lines.length; i++) {
-            let line = lines[i].trim();
-            if (!line) {
-              continue;
+            if (err) {
+                console.error(err);
+                return;
             }
-            if (line.startsWith('Subject:')) {
-              subject = line.split(':')[1].trim();
-              courses.push(subject);
-            }
-          }
+            const courses = [];
+            let subject = null;
+            let lines = data.split('\n');
     
-          console.log(courses);
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                if (!line) {
+                    continue;
+                }
+                if (line.startsWith('Subject:')) {
+                    subject = line.split(':')[1].trim();
+                    //courses.push(subject);
+                    for(let i = 0; i<subject.length; i++)
+                    {
+                        //console.log(subject);
+                        let firstFourChars = subject.slice(0, 4).toUpperCase();
+                        console.log(firstFourChars); 
+                    }
+                    
+                }
+
+                
+            }
+    
+            //console.log(courses);
         });
     }
       
