@@ -1,52 +1,68 @@
 class Course 
 {
-    constructor(subject, number, name, section, crn, room, type) {
-      this.subject = subject;
-      this.number = number;
-      this.name = name;
-      this.section = section;
-      this.crn = crn;
-      this.room = room;
-      this.type = type;
-      this.days = null;
-      this.startTime = null;
-      this.endTime = null;
-    }
-    
-    static load(filename) {
-        const fs = require('fs');
-        fs.readFile(filename, 'utf-8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            const courses = [];
-            let subject = null;
-            let lines = data.split('\n');
-    
-            for (let i = 0; i < lines.length; i++) {
-                let line = lines[i].trim();
-                if (!line) {
-                    continue;
-                }
-                if (line.startsWith('Subject:')) {
-                    subject = line.split(':')[1].trim();
-                    //courses.push(subject);
-                    for(let i = 0; i<subject.length; i++)
-                    {
-                        //console.log(subject);
-                        let firstFourChars = subject.slice(0, 4).toUpperCase();
-                        console.log(firstFourChars); 
-                    }
-                    
-                }
+  constructor(subject, number, name, section, crn, room, type) {
+    this.subject = subject;
+    this.number = number;
+    this.name = name;
+    this.section = section;
+    this.crn = crn;
+    this.room = room;
+    this.type = type;
+    this.days = null;
+    this.startTime = null;
+    this.endTime = null;
+  }
+  
+  static load(filename) {
+    const fs = require('fs');
+    fs.readFile(filename, 'utf-8', (err, data) => {
+      if (err) {
+          console.error(err);
+          return;
+      }
+      const courses = [];
+      let subject = null;
+      let lines = data.split('\n');
 
-                
-            }
-    
-            //console.log(courses);
-        });
-    }
+      for (let i = 0; i < 50; i++) {
+        let line = lines[i].trim();
+        if (!line) {
+          continue;
+        }
+        
+        let listOfSubjects = [];
+        if (line.startsWith('Subject:')) {
+          subject = line.split(':')[1].trim();
+          
+          //courses.push(subject);
+          for(let i = 0; i<subject.length; i++)
+          {
+            //console.log(subject);
+            let firstFourChars = subject.slice(0, 4).toUpperCase();
+            listOfSubjects.push(firstFourChars);
+            
+          }
+          
+          //console.log(listOfSubjects); 
+        }
+        else{
+          let parts = line.split(' ');
+          let number = parts[1];
+          let name = parts.slice(2, parts.indexOf(parts.find(word => /^\d{3}$/.test(word)))).join(' ');
+          let section = parts.find(word => /^\d{3}$/.test(word));
+          let crn = parts[parts.indexOf(section) + 1];
+          let room = parts.find(word => /^[A-Za-z]{1,2}\d{4}$/.test(word));
+
+          let course = new Course(subject, number, name, section, crn, room);
+          
+          courses.push(course);
+        }
+        
+      }
+
+        console.log(courses);
+    });
+  }
       
   
 
